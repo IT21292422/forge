@@ -5,69 +5,153 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<h1 align="center">Micro-Services with NestJS</h1>
 
-## Description
+[Read More about NestJS](https://github.com/nestjs/nest)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Watch project initialization](https://youtu.be/3_jJK5NMGzs?si=A7Ve1cSm4A71oCGi)
 
-## Installation
+## Basic project structure
 
-```bash
-$ npm install
+```mermaid
+graph LR;
+    User<-->FrontEnd;
+    FrontEnd<-->Forge;
+    Forge<-->Course;
+    Forge<-->Learner;
+    Forge<-->Notification;
+    Forge<-->Payment;
 ```
 
-## Running the app
+### Installation
 
 ```bash
-# development
-$ npm run start
+npm install
+```
 
-# watch mode
-$ npm run start:dev
+### Running the app
 
-# production mode
-$ npm run start:prod
+#### forge(auth) - start this before any service
+
+```bash
+npm run start:dev
+```
+
+#### for services (developing mode)
+
+```bash
+npm run start-notifications:dev
+```
+
+```bash
+npm run start-payment:dev
+```
+
+```bash
+npm run start-course:dev
+```
+
+```bash
+npm run start-learner:dev
+```
+
+#### To run build files
+
+```bash
+node dist/apps/forge/main.js
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+npm run test
 
 # e2e tests
-$ npm run test:e2e
+npm run test:e2e
 
 # test coverage
-$ npm run test:cov
+npm run test:cov
 ```
 
-## Support
+### Create Docker image
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### From the root folder run this command (only for forge service)
 
-## Stay in touch
+```bash
+docker build -t forge-app -f Dockerfile .
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- for other services this Dockerfile need to be changed.
 
-## License
+```bash
+docker run -p 3000:3000 forge-app
+```
 
-Nest is [MIT licensed](LICENSE).
+#### To stop running docker image
+
+```bash
+docker ps
+```
+
+```bash
+docker stop <CONTAINER ID>
+```
+
+#### While the created docker image is running
+
+![Running Docker](./images/docker_cmd.png)
+
+- here port numbers need to be changed as per service
+
+#### This is only for forge service
+
+```Dockerfile
+# Base image
+FROM node:20-alpine AS builder
+
+# Set the working directory
+WORKDIR /app/forge
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Copy .env file
+COPY .env ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the entire project
+COPY . .
+
+# Build the NestJS application
+RUN npm run build
+
+# Production image
+FROM node:20-alpine
+
+# Set the working directory
+WORKDIR /app/forge/dist/apps/forge
+
+# Copy the built application from the builder image
+COPY --from=builder /app/forge/dist/apps/forge ./
+
+# Copy package.json and package-lock.json
+COPY --from=builder /app/forge/package*.json ./
+
+# Copy .env file
+COPY --from=builder /app/forge/.env ./
+
+# Set environment variables
+ENV ATLAS_URI=add_api_key_here
+
+# Install only production dependencies
+RUN npm install --production
+
+# Expose the port your NestJS application will run on
+EXPOSE 3000
+
+# Start the NestJS application
+CMD ["node", "main.js"]
+```
