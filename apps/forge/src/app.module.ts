@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { MongooseModule } from '@nestjs/mongoose';
-import 'dotenv/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { DatabaseModule } from './db/db.module';
 import { HealthController } from './health/app.health.controller';
 import { UsersModule } from './users/users.module';
-
-const ATLAS_URI = process.env.ATLAS_URI;
 
 @Module({
   imports: [
@@ -33,9 +30,7 @@ const ATLAS_URI = process.env.ATLAS_URI;
         options: { port: 3001 },
       },
     ]),
-    MongooseModule.forRoot(process.env.ATLAS_URI, {
-      dbName: 'forge_test',
-    }),
+    DatabaseModule,
     UsersModule,
   ],
   controllers: [AppController, HealthController],
