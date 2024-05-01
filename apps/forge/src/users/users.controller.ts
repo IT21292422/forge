@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+} from '@nestjs/common';
+import { UserAlreadyExistsException } from 'shared/exceptions/user.exceptions';
 import { CreateUserDTO } from './dto/user.dto';
 import { UsersService } from './users.service';
 
@@ -13,6 +20,13 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() user: CreateUserDTO) {
-    return await this.usersService.create(user);
+    try {
+      return await this.usersService.create(user);
+    } catch (error) {
+      if (error.code === 11000) {
+        throw UserAlreadyExistsException(error);
+      }
+      throw new BadRequestException(error.message, 'Error creating user');
+    }
   }
 }

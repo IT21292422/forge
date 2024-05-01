@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDTO } from './dto/user.dto';
@@ -13,8 +13,12 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDTO): Promise<User> {
-    const createdUser = new this.userModel(createUserDto);
-    return createdUser.save();
+    try {
+      const createdUser = new this.userModel(createUserDto);
+      return createdUser.save();
+    } catch (error) {
+      throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);
+    }
   }
 
   async findAll(): Promise<User[]> {
