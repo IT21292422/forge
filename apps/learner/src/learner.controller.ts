@@ -1,4 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
+import { CreateUserEvent } from 'shared/events/auth.events';
 import { LearnerService } from './learner.service';
 
 @Controller()
@@ -8,5 +10,9 @@ export class LearnerController {
   @Get()
   getHello(): string {
     return this.learnerService.getHello();
+  }
+  @EventPattern('user_created')
+  handleUserCreatedEvent(data: CreateUserEvent) {
+    this.learnerService.handleUserCreated(data);
   }
 }

@@ -1,4 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
+import { CreateUserEvent } from 'shared/events/auth.events';
 import { PaymentService } from './payment.service';
 
 @Controller()
@@ -8,5 +10,10 @@ export class PaymentController {
   @Get()
   getHello(): string {
     return this.paymentService.getHello();
+  }
+
+  @EventPattern('user_created')
+  handleUserCreatedEvent(data: CreateUserEvent) {
+    this.paymentService.handleUserCreatedEvent(data);
   }
 }

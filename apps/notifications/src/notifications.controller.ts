@@ -14,8 +14,6 @@ export class NotificationsController {
 
   @EventPattern('user_created')
   handleUserCreatedEvent(data: CreateUserEvent) {
-    console.log('Called handleUserCreatedEvent in noifications');
-
     this.notificationsService.handleUserCreatedEvent(data);
   }
 }
