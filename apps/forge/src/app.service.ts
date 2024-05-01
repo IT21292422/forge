@@ -37,4 +37,15 @@ export class AppService {
       new CreateUserEvent(signUpRequest.email),
     );
   }
+
+  getApphealth() {
+    return 'OK';
+  }
+
+  async getNotificationHealth() {
+    return this.notificationsClient.send(
+      { cmd: 'notifications_health_check' },
+      {},
+    );
+  }
 }

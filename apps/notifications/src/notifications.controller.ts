@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 import { CreateUserEvent } from 'shared/events/auth.events';
 import { NotificationsService } from './notifications.service';
 
@@ -15,5 +15,10 @@ export class NotificationsController {
   @EventPattern('user_created')
   handleUserCreatedEvent(data: CreateUserEvent) {
     this.notificationsService.handleUserCreatedEvent(data);
+  }
+
+  @MessagePattern({ cmd: 'notifications_health_check' })
+  getHealth() {
+    return this.notificationsService.getHealth();
   }
 }

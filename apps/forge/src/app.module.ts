@@ -1,8 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { MongooseModule } from '@nestjs/mongoose';
+import 'dotenv/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { HealthController } from './health/app.health.controller';
+import { UsersModule } from './users/users.module';
+
+const ATLAS_URI = process.env.ATLAS_URI;
 
 @Module({
   imports: [
@@ -10,6 +15,7 @@ import { AppService } from './app.service';
       {
         name: 'NOTIFICATIONS_SERVICE',
         transport: Transport.TCP,
+        options: { port: 3004 },
       },
       {
         name: 'COURSE_SERVICE',
@@ -27,9 +33,12 @@ import { AppService } from './app.service';
         options: { port: 3001 },
       },
     ]),
-    MongooseModule.forRoot('mongodb://localhost/nest', { dbName: 'forge' }),
+    MongooseModule.forRoot(process.env.ATLAS_URI, {
+      dbName: 'forge_test',
+    }),
+    UsersModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
   providers: [AppService],
 })
 export class AppModule {}
