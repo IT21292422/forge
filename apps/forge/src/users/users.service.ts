@@ -8,10 +8,6 @@ import { User } from './model/user.model';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  getHello(): string {
-    return 'Hello Users!';
-  }
-
   async create(createUserDto: CreateUserDTO): Promise<User> {
     try {
       const createdUser = new this.userModel(createUserDto);
@@ -22,6 +18,12 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return await this.userModel.find().exec();
+  }
+
+  async findOne(id: string): Promise<User> {
+    console.log('id', id);
+
+    return await this.userModel.findById(id).exec();
   }
 }
