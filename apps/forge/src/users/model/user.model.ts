@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { USERROLES } from '../constants/user.constants';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -23,7 +24,7 @@ export class User {
   @Prop({ required: true, unique: true, match: /^[^s@]+@[^s@]+.[^s@]+$/ })
   email: string;
 
-  @Prop({ required: true, enum: ['admin', 'student', 'instructor'] })
+  @Prop({ required: true, enum: Object.values(USERROLES) })
   role: string;
 }
 
