@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -27,7 +26,7 @@ import { AppService } from './app.service';
         options: { port: 3001 },
       },
     ]),
-    MongooseModule.forRoot('mongodb://localhost/nest', { dbName: 'forge' }),
+    // MongooseModule.forRoot('mongodb://localhost/nest', { dbName: 'forge' }),
   ],
   controllers: [AppController],
   providers: [AppService],
