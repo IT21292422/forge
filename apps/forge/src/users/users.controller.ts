@@ -12,7 +12,10 @@ import {
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserEvent } from 'shared/events/auth.events';
 import { UserAlreadyExistsException } from 'shared/exceptions/user.exceptions';
-import { CreateInstructorDTO, CreateStudentDTO } from './dto/user.dto';
+import {
+  CreateInstructorRequestDTO,
+  CreateStudentRequestDTO,
+} from './dto/user.dto';
 import { Instructor } from './instructor/model/instructor.model';
 import { Student } from './student/model/student.model';
 import { UsersService } from './users.service';
@@ -43,7 +46,9 @@ export class UsersController {
   }
 
   @Post()
-  async createUser(@Body() user: CreateStudentDTO | CreateInstructorDTO) {
+  async createUser(
+    @Body() user: CreateStudentRequestDTO | CreateInstructorRequestDTO,
+  ) {
     try {
       const result = await this.usersService.create(user);
       this.notificationsClient.emit(

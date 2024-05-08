@@ -1,7 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateInstructorDTO, CreateStudentDTO } from './dto/user.dto';
+import {
+  CreateInstructorRequestDTO,
+  CreateStudentRequestDTO,
+} from './dto/user.dto';
 import { Instructor } from './instructor/model/instructor.model';
 import { Student } from './student/model/student.model';
 
@@ -17,7 +20,7 @@ export class UsersService {
   }
 
   async create(
-    createUserDto: CreateStudentDTO | CreateInstructorDTO,
+    createUserDto: CreateStudentRequestDTO | CreateInstructorRequestDTO,
   ): Promise<Student | Instructor> {
     try {
       if (createUserDto.role === 'student') {
@@ -74,7 +77,7 @@ export class UsersService {
   async patchUser(
     id: string,
     role: string,
-    update: CreateStudentDTO | CreateInstructorDTO,
+    update: CreateStudentRequestDTO | CreateInstructorRequestDTO,
   ): Promise<Student | Instructor> {
     if (role === 'student') {
       return await this.studentModel.findByIdAndUpdate(id, update).exec();
