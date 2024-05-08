@@ -1,6 +1,6 @@
 import { Student } from '../student/model/student.model';
 
-export interface CreateStudentDTO {
+export interface CreateStudentRequestDTO {
   firstName: string;
   lastName: string;
   email: string;
@@ -8,7 +8,7 @@ export interface CreateStudentDTO {
   year: string;
   enrolledCourses: string[];
 }
-export interface CreateInstructorDTO {
+export interface CreateInstructorRequestDTO {
   firstName: string;
   lastName: string;
   email: string;
