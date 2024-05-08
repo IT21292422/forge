@@ -1,19 +1,36 @@
 ###
 # Get all users
-GET http://localhost:3000/users/
+GET http://localhost:3005/users/student
 
 ###
 # Get user by id
-GET http://localhost:3000/users/32307754e72d1ae5b744625
+GET http://localhost:3005/users/student/663bc0e9ef8b9fc165392847
 
 ###
 # Create User
-POST http://localhost:3000/users/
+POST http://localhost:3005/users/
 Content-Type: application/json
 
 {
-    "firstName": "Bruce",
-    "lastName": "Wayne",
-    "email": "batman@gmail.com",
-    "role": "admin"
+    "firstName": "super",
+    "lastName": "man",
+    "email": "supes@gmail.com",
+    "role": "student",
+    "year": 4,
+    "enrolledCourses": ["C10"]
 }
+
+###
+# Update user
+PATCH  http://localhost:3005/users/student/663bc547f778769d8a7d1761
+Content-Type: application/json
+
+{
+    "enrolledCourses": ["C3"]
+}
+
+###
+# Delete user
+DELETE http://localhost:3005/users/student/663bc0e9ef8b9fc165392847
+
+###
