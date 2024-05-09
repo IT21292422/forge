@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { USERROLES } from '../constants/user.constants';
 import { Student } from '../student/model/student.model';
 
@@ -7,6 +8,7 @@ export interface CreateStudentDTO {
   email: string;
   role: string;
   year: string;
+  password: string;
   enrolledCourses: string[];
 }
 export interface CreateInstructorDTO {
@@ -14,6 +16,7 @@ export interface CreateInstructorDTO {
   lastName: string;
   email: string;
   role: string;
+  password: string;
   publishedCourses: string[];
 }
 
@@ -28,4 +31,16 @@ export interface LoginUserRequestDTO {
   email: string;
   password: string;
   role: USERROLES;
+}
+
+export interface CreateStudentResponseDTO {
+  firstName: string;
+  lastName: string;
+  createdAt: Date;
+  updatedAt: Date;
+  email: string;
+  role: string;
+  year: string;
+  enrolledCourses: string[];
+  _id: Types.ObjectId;
 }

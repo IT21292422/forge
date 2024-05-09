@@ -17,7 +17,8 @@ Content-Type: application/json
     "email": "supes@gmail.com",
     "role": "student",
     "year": 4,
-    "enrolledCourses": ["C10"]
+    "enrolledCourses": ["C10"],
+    "password": "password"
 }
 
 ###

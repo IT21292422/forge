@@ -1,9 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
-import { CreateInstructorDTO, CreateStudentDTO } from './dto/user.dto';
+import {
+  CreateInstructorDTO,
+  CreateStudentDTO,
+  CreateStudentResponseDTO,
+} from './dto/user.dto';
 import { Instructor } from './instructor/model/instructor.model';
 import { Student } from './student/model/student.model';
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -17,16 +23,28 @@ export class UsersService {
 
   async create(
     createUserDto: CreateStudentDTO | CreateInstructorDTO,
-  ): Promise<Student | Instructor> {
+  ): Promise<CreateStudentResponseDTO | Instructor> {
+    const { password, ...rest } = createUserDto;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('hashedPassword', hashedPassword);
+
     try {
       if (createUserDto.role === 'student') {
-        const createdUser = new this.studentModel(createUserDto);
+        const student = new this.studentModel({
+          ...rest,
+          password: hashedPassword,
+        });
 
-        return createdUser.save();
+        const result = await student.save();
+        const { password, ...resultWithoutPassword } = result.toObject();
+        return resultWithoutPassword;
       } else {
-        const createdUser = new this.instructorModel(createUserDto);
+        const instructor = new this.instructorModel({
+          ...rest,
+          password: hashedPassword,
+        });
 
-        return createdUser.save();
+        return await instructor.save();
       }
     } catch (error) {
       throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);
