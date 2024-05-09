@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserEvent } from 'shared/events/auth.events';
+import { createCourseDTO } from './dto/course.dto';
 
 @Injectable()
 export class CourseService {
@@ -9,5 +10,9 @@ export class CourseService {
 
   handleUSerCreatedEvent(data: CreateUserEvent) {
     console.log('Received user created event ~ 🚀 Course', data);
+  }
+
+  handleCreateCourse(data: createCourseDTO) {
+    return data;
   }
 }
