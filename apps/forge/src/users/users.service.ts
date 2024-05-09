@@ -4,7 +4,6 @@ import { Model } from 'mongoose';
 import { CreateInstructorDTO, CreateStudentDTO } from './dto/user.dto';
 import { Instructor } from './instructor/model/instructor.model';
 import { Student } from './student/model/student.model';
-
 @Injectable()
 export class UsersService {
   constructor(

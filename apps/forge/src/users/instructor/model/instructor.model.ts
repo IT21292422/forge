@@ -18,6 +18,9 @@ export class Instructor {
   @Prop({ default: Date.now() })
   createdAt: Date;
 
+  @Prop({ required: true, minlength: 8 })
+  password: string;
+
   @Prop({ default: Date.now() })
   updatedAt: Date;
 

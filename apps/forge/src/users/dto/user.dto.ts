@@ -1,3 +1,4 @@
+import { USERROLES } from '../constants/user.constants';
 import { Student } from '../student/model/student.model';
 
 export interface CreateStudentDTO {
@@ -21,4 +22,10 @@ export interface GetAllStudentsResponseDTO {
 }
 export interface GetOneStudentsResponseDTO {
   user: Student;
+}
+
+export interface LoginUserRequestDTO {
+  email: string;
+  password: string;
+  role: USERROLES;
 }
