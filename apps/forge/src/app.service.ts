@@ -45,7 +45,7 @@ export class AppService {
   async getNotificationHealth() {
     return this.notificationsClient.send(
       { cmd: 'notifications_health_check' },
-      {},
+      { testData: 'succesffuly received package' },
     );
   }
 }

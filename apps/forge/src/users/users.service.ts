@@ -1,9 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import * as bcrypt from 'bcrypt';
+import { Document, Model } from 'mongoose';
+import { UserAlreadyExistsException } from 'shared/exceptions/user.exceptions';
 import {
-  CreateInstructorRequestDTO,
-  CreateStudentRequestDTO,
+  CreateInstructorDTO,
+  CreateInstructorResponseDTO,
+  CreateStudentDTO,
+  CreateStudentResponseDTO,
+
 } from './dto/user.dto';
 import { Instructor } from './instructor/model/instructor.model';
 import { Student } from './student/model/student.model';
@@ -13,26 +19,57 @@ export class UsersService {
   constructor(
     @InjectModel(Student.name) private studentModel: Model<Student>,
     @InjectModel(Instructor.name) private instructorModel: Model<Instructor>,
+    private jwtService: JwtService,
   ) {}
 
   onModuleInit() {
-    console.log(`UsersService has been initialized on port 3005`);
+    console.log(`Users module has been loaded on port 3005`);
   }
 
   async create(
-    createUserDto: CreateStudentRequestDTO | CreateInstructorRequestDTO,
-  ): Promise<Student | Instructor> {
+    createUserDto: CreateStudentDTO | CreateInstructorDTO,
+  ): Promise<CreateStudentResponseDTO | CreateInstructorResponseDTO> {
+    const { password, ...rest } = createUserDto;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     try {
       if (createUserDto.role === 'student') {
-        const createdUser = new this.studentModel(createUserDto);
+        const student = new this.studentModel({
+          ...rest,
+          password: hashedPassword,
+        });
 
-        return createdUser.save();
+        const result = await student.save();
+        const plainObject = (result as Document).toObject();
+        const token = await this.jwtService.signAsync({
+          email: rest.email,
+          role: rest.role,
+          id: rest._id,
+        });
+        const { password, ...resultWithoutPassword } = plainObject;
+        return { ...resultWithoutPassword, token };
       } else {
-        const createdUser = new this.instructorModel(createUserDto);
+        const instructor = new this.instructorModel({
+          ...rest,
+          password: hashedPassword,
+        });
 
-        return createdUser.save();
+        const result = await instructor.save();
+        const plainObject = (result as Document).toObject();
+        const token = await this.jwtService.signAsync({
+          email: rest.email,
+          role: rest.role,
+          id: rest._id,
+        });
+        const { password, ...resultWithoutPassword } = plainObject;
+        return { ...resultWithoutPassword, token };
       }
     } catch (error) {
+      console.log('error', error);
+
+      if (error.code === 11000) {
+        throw UserAlreadyExistsException(error);
+      }
       throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);
     }
   }

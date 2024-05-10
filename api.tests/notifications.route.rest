@@ -1,3 +1,3 @@
 ###
 
-GET http://localhost:3000/health/notifications
+GET http://localhost:3005/health/notifications
