@@ -10,7 +10,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { CreateUserEvent } from 'shared/events/auth.events';
 import {
   CreateInstructorRequestDTO,
   CreateStudentRequestDTO,
@@ -51,10 +50,6 @@ export class UsersController {
     try {
       console.log('🚀 ~ UsersController ~ createUser ~ user:', user);
       const result = await this.usersService.create(user);
-      this.notificationsClient.emit(
-        'user_created',
-        new CreateUserEvent(user.email),
-      );
 
       console.log('🚀 ~ UsersController ~ createUser ~ result:', result);
       return result;
