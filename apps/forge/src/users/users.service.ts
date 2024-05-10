@@ -5,10 +5,8 @@ import * as bcrypt from 'bcrypt';
 import { Document, Model } from 'mongoose';
 import { UserAlreadyExistsException } from 'shared/exceptions/user.exceptions';
 import {
-  CreateInstructorDTO,
   CreateInstructorRequestDTO,
   CreateInstructorResponseDTO,
-  CreateStudentDTO,
   CreateStudentRequestDTO,
   CreateStudentResponseDTO,
 } from './dto/user.dto';
@@ -28,7 +26,7 @@ export class UsersService {
   }
 
   async create(
-    createUserDto: CreateStudentDTO | CreateInstructorDTO,
+    createUserDto: CreateStudentRequestDTO | CreateInstructorRequestDTO,
   ): Promise<CreateStudentResponseDTO | CreateInstructorResponseDTO> {
     const { password, ...rest } = createUserDto;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -45,6 +43,7 @@ export class UsersService {
         const token = await this.jwtService.signAsync({
           email: rest.email,
           role: rest.role,
+          //@ts-ignore
           id: rest._id,
         });
         const { password, ...resultWithoutPassword } = plainObject;
@@ -60,6 +59,7 @@ export class UsersService {
         const token = await this.jwtService.signAsync({
           email: rest.email,
           role: rest.role,
+          //@ts-ignore
           id: rest._id,
         });
         const { password, ...resultWithoutPassword } = plainObject;

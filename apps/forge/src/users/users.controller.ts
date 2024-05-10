@@ -11,7 +11,10 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserEvent } from 'shared/events/auth.events';
-import { CreateInstructorDTO, CreateStudentDTO } from './dto/user.dto';
+import {
+  CreateInstructorRequestDTO,
+  CreateStudentRequestDTO,
+} from './dto/user.dto';
 import { Instructor } from './instructor/model/instructor.model';
 import { Student } from './student/model/student.model';
 import { UsersService } from './users.service';
