@@ -9,3 +9,20 @@ export const UserAlreadyExistsException = (error) =>
     },
     HttpStatus.BAD_REQUEST,
   );
+
+export const WrongPasswordException = () =>
+  new HttpException(
+    {
+      status: HttpStatus.BAD_REQUEST,
+      message: 'The password you entered is incorrect',
+    },
+    HttpStatus.BAD_REQUEST,
+  );
+export const EmailDoesNotExistLoginException = () =>
+  new HttpException(
+    {
+      status: HttpStatus.BAD_REQUEST,
+      message: 'There is no account with this email address',
+    },
+    HttpStatus.BAD_REQUEST,
+  );

@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
+import {
+  LoginInstructorResponseDTO,
+  LoginStudentResponseDTO,
+} from '../users/dto/user.dto';
 import { Instructor } from '../users/instructor/model/instructor.model';
 import { Student } from '../users/student/model/student.model';
 import { UsersService } from '../users/users.service';
@@ -18,35 +22,14 @@ export class AuthService {
     console.log(`Auth service has been initialized on port 3005`);
   }
 
-  //   async signIn(credentials: LoginUserRequestDTO): Promise<any> {
-  //     const user = await this.validateUser(
-  //       credentials.email,
-  //       credentials.password,
-  //       credentials.role,
-  //     );
-  //     if (user?.password !== pass) {
-  //       throw new UnauthorizedException();
-  //     }
-  //     const { password, ...result } = user;
-  //     // TODO: Generate a JWT and return it here
-  //     // instead of the user object
-  //     return result;
-  //   }
-
-  //   async login(user: LoginUserRequestDTO) {
-  //     const payload = { email: user.email, role: user.role };
-  //     return {
-  //       access_token: this.jwtService.sign(payload),
-  //     };
-  //   }
-
   async validateUser(
     email: string,
     password: string,
     role: string,
-  ): Promise<
-    Student | Instructor | { status: 'nouser' } | { status: 'invalidpassword' }
-  > {
+  ): Promise<{
+    userObject?: LoginStudentResponseDTO | LoginInstructorResponseDTO;
+    error?: 'nouser' | 'invalidpassword';
+  }> {
     let user;
 
     if (role === 'student') {
@@ -56,16 +39,17 @@ export class AuthService {
     }
 
     if (!user) {
-      return { status: 'nouser' };
+      return { userObject: null, error: 'nouser' };
     }
-
-    // Check if password matches
+    console.log('🚀 ~ AuthService ~ user after checking:', user);
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return { status: 'invalidpassword' };
+      return { userObject: null, error: 'invalidpassword' };
     }
 
-    return { ...user, status: 'valid' };
+    const plainObject = user.toJSON();
+    const { password: pass, ...result } = plainObject;
+    return { userObject: result, error: null };
   }
 }

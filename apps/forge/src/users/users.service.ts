@@ -1,9 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
-import { Model } from 'mongoose';
+import { Document, Model } from 'mongoose';
+import { UserAlreadyExistsException } from 'shared/exceptions/user.exceptions';
 import {
   CreateInstructorDTO,
+  CreateInstructorResponseDTO,
   CreateStudentDTO,
   CreateStudentResponseDTO,
 } from './dto/user.dto';
@@ -15,18 +18,18 @@ export class UsersService {
   constructor(
     @InjectModel(Student.name) private studentModel: Model<Student>,
     @InjectModel(Instructor.name) private instructorModel: Model<Instructor>,
+    private jwtService: JwtService,
   ) {}
 
   onModuleInit() {
-    console.log(`UsersService has been initialized on port 3005`);
+    console.log(`Users module has been loaded on port 3005`);
   }
 
   async create(
     createUserDto: CreateStudentDTO | CreateInstructorDTO,
-  ): Promise<CreateStudentResponseDTO | Instructor> {
+  ): Promise<CreateStudentResponseDTO | CreateInstructorResponseDTO> {
     const { password, ...rest } = createUserDto;
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log('hashedPassword', hashedPassword);
 
     try {
       if (createUserDto.role === 'student') {
@@ -36,17 +39,36 @@ export class UsersService {
         });
 
         const result = await student.save();
-        const { password, ...resultWithoutPassword } = result.toObject();
-        return resultWithoutPassword;
+        const plainObject = (result as Document).toObject();
+        const token = await this.jwtService.signAsync({
+          email: rest.email,
+          role: rest.role,
+          id: rest._id,
+        });
+        const { password, ...resultWithoutPassword } = plainObject;
+        return { ...resultWithoutPassword, token };
       } else {
         const instructor = new this.instructorModel({
           ...rest,
           password: hashedPassword,
         });
 
-        return await instructor.save();
+        const result = await instructor.save();
+        const plainObject = (result as Document).toObject();
+        const token = await this.jwtService.signAsync({
+          email: rest.email,
+          role: rest.role,
+          id: rest._id,
+        });
+        const { password, ...resultWithoutPassword } = plainObject;
+        return { ...resultWithoutPassword, token };
       }
     } catch (error) {
+      console.log('error', error);
+
+      if (error.code === 11000) {
+        throw UserAlreadyExistsException(error);
+      }
       throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);
     }
   }

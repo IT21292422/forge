@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserEvent } from 'shared/events/auth.events';
-import { UserAlreadyExistsException } from 'shared/exceptions/user.exceptions';
 import { CreateInstructorDTO, CreateStudentDTO } from './dto/user.dto';
 import { Instructor } from './instructor/model/instructor.model';
 import { Student } from './student/model/student.model';
@@ -45,17 +44,22 @@ export class UsersController {
   @Post()
   async createUser(@Body() user: CreateStudentDTO | CreateInstructorDTO) {
     try {
+      console.log('🚀 ~ UsersController ~ createUser ~ user:', user);
       const result = await this.usersService.create(user);
       this.notificationsClient.emit(
         'user_created',
         new CreateUserEvent(user.email),
       );
+
+      console.log('🚀 ~ UsersController ~ createUser ~ result:', result);
       return result;
     } catch (error) {
-      if (error.code === 11000) {
-        throw UserAlreadyExistsException(error);
-      }
-      throw new BadRequestException(error.message, 'Error creating user');
+      console.log('🚀 ~ UsersController ~ createUser ~ error:', error.code);
+
+      throw new BadRequestException(
+        error.message,
+        'Error creating user custom',
+      );
     }
   }
 
