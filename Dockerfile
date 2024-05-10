@@ -7,53 +7,53 @@
 ## docker builder prune --all --force
 
 ## ! ############# Docker build for forge ###########################
-# Base image
-FROM node:20-alpine AS builder
+# # Base image
+# FROM node:20-alpine AS builder
 
-# Set the working directory
-WORKDIR /app/forge
+# # Set the working directory
+# WORKDIR /app/forge
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# # Copy package.json and package-lock.json
+# COPY package*.json ./
 
-# Copy .env file
-COPY .env ./
+# # Copy .env file
+# COPY .env ./
 
-# Install dependencies
-RUN npm install
+# # Install dependencies
+# RUN npm install
 
-# Copy the entire project
-COPY . .
+# # Copy the entire project
+# COPY . .
 
-# Build the NestJS application
-RUN npm run build
+# # Build the NestJS application
+# RUN npm run build
 
-# Production image
-FROM node:20-alpine
+# # Production image
+# FROM node:20-alpine
 
-# Set the working directory
-WORKDIR /app/forge/dist/apps/forge
+# # Set the working directory
+# WORKDIR /app/forge/dist/apps/forge
 
-# Copy the built application from the builder image
-COPY --from=builder /app/forge/dist/apps/forge ./
+# # Copy the built application from the builder image
+# COPY --from=builder /app/forge/dist/apps/forge ./
 
-# Copy package.json and package-lock.json
-COPY --from=builder /app/forge/package*.json ./
+# # Copy package.json and package-lock.json
+# COPY --from=builder /app/forge/package*.json ./
 
-# Copy .env file
-COPY --from=builder /app/forge/.env ./
+# # Copy .env file
+# COPY --from=builder /app/forge/.env ./
 
-# Install only production dependencies
-RUN npm install --production
+# # Install only production dependencies
+# RUN npm install --production
 
-# Expose the port your NestJS application will run on
-EXPOSE 3000
+# # Expose the port your NestJS application will run on
+# EXPOSE 3000
 
-# Set environment variables
-CMD ["sh", "-c", "export $(cat /app/forge/.env | xargs) && node main.js"]
+# # Set environment variables
+# CMD ["sh", "-c", "export $(cat /app/forge/.env | xargs) && node main.js"]
 
-# sudo docker build -t forge-app -f Dockerfile .
-# sudo docker run -p 3000:3000 forge-app
+# # sudo docker build -t forge-app -f Dockerfile .
+# # sudo docker run -p 3000:3000 forge-app
 
 ## ! ############# Docker build for learner ###########################
 
@@ -255,3 +255,86 @@ CMD ["sh", "-c", "export $(cat /app/forge/.env | xargs) && node main.js"]
 # # sudo docker build -t notifications-app -f Dockerfile .
 # # sudo docker run -p 3004:3004 notifications-app
 
+## ! ########## common docker file ##############
+
+# FROM node:20-alpine AS base 
+
+# # development stage
+# FROM base AS development 
+# ARG APP 
+# ARG NODE_ENV=development 
+# ENV NODE_ENV=${NODE_ENV}
+# ENV ATLAS_URI={ATLAS_URI}
+# WORKDIR /usr/src/app 
+# COPY package.json ./ 
+# RUN npm install
+# COPY . . 
+# RUN npm run build ${APP} 
+
+# # production stage
+# FROM base AS production 
+# ARG APP 
+# ARG NODE_ENV=production 
+# ENV NODE_ENV=${NODE_ENV} 
+# WORKDIR /usr/src/app 
+# COPY package.json ./ 
+# RUN npm install --prod
+# COPY --from=development /usr/src/app/dist ./dist 
+ 
+# # Add an env to save ARG
+# ENV APP_MAIN_FILE=dist/apps/${APP}/main 
+# CMD node ${APP_MAIN_FILE}
+
+## ! ############# Docker common build ###########################
+
+# Base image
+FROM node:20-alpine AS builder
+
+# Set args
+ARG APP
+# Set the working directory
+WORKDIR /app/${APP}
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Copy .env file
+COPY .env ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the entire project
+COPY . .
+
+# Build the NestJS application
+RUN npm run build
+
+# Production image
+FROM node:20-alpine
+
+# Set the working directory
+WORKDIR /app/${APP}/dist/apps/${APP}
+
+# Copy the built application from the builder image
+COPY --from=builder /app/${APP}/dist/apps/${APP} ./
+
+# Copy package.json and package-lock.json
+COPY --from=builder /app/${APP}/package*.json ./
+
+# Copy .env file
+COPY --from=builder /app/${APP}/.env ./
+
+# Install only production dependencies
+RUN npm install --production
+
+ENV APP_MAIN_FILE=dist/apps/${APP}/main 
+CMD node ${APP_MAIN_FILE}
+
+# # Expose the port your NestJS application will run on
+# EXPOSE 3004
+# # Set environment variables
+# CMD ["sh", "-c", "export $(cat /app/course/.env | xargs) && node main.js"]
+
+# sudo docker build -t course-app -f Dockerfile .
+# sudo docker run -p 3003:3003 course-app

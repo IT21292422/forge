@@ -42,7 +42,9 @@ export class UsersController {
   }
 
   @Post()
-  async createUser(@Body() user: CreateStudentDTO | CreateInstructorDTO) {
+  async createUser(
+    @Body() user: CreateStudentRequestDTO | CreateInstructorRequestDTO,
+  ) {
     try {
       console.log('🚀 ~ UsersController ~ createUser ~ user:', user);
       const result = await this.usersService.create(user);

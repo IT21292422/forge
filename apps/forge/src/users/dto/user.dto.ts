@@ -2,7 +2,7 @@ import { Types } from 'mongoose';
 import { USERROLES } from '../constants/user.constants';
 import { Student } from '../student/model/student.model';
 
-export interface CreateStudentDTO {
+export interface CreateStudentRequestDTO {
   firstName: string;
   lastName: string;
   email: string;
@@ -11,7 +11,7 @@ export interface CreateStudentDTO {
   password: string;
   enrolledCourses: string[];
 }
-export interface CreateInstructorDTO {
+export interface CreateInstructorRequestDTO {
   firstName: string;
   lastName: string;
   email: string;

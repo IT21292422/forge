@@ -9,6 +9,7 @@ import {
   CreateInstructorResponseDTO,
   CreateStudentDTO,
   CreateStudentResponseDTO,
+
 } from './dto/user.dto';
 import { Instructor } from './instructor/model/instructor.model';
 import { Student } from './student/model/student.model';
@@ -113,7 +114,7 @@ export class UsersService {
   async patchUser(
     id: string,
     role: string,
-    update: CreateStudentDTO | CreateInstructorDTO,
+    update: CreateStudentRequestDTO | CreateInstructorRequestDTO,
   ): Promise<Student | Instructor> {
     if (role === 'student') {
       return await this.studentModel.findByIdAndUpdate(id, update).exec();
