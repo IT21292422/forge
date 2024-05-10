@@ -14,7 +14,7 @@ Content-Type: application/json
 {
     "firstName": "super",
     "lastName": "man",
-    "email": "supes@gmail.com",
+    "email": "c.wick400@gmail.com",
     "role": "instructor",
     "publishedCourses": ["C10"],
     "password": "password"

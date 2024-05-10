@@ -12,7 +12,7 @@ export class PaymentController {
     return this.paymentService.getHello();
   }
 
-  @EventPattern('user_created')
+  @EventPattern('test_event')
   handleUserCreatedEvent(data: CreateUserEvent) {
     this.paymentService.handleUserCreatedEvent(data);
   }
