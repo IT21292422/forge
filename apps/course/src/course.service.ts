@@ -1,9 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserEvent } from 'shared/events/auth.events';
 import { createCourseDTO } from './dto/course.dto';
 
 @Injectable()
 export class CourseService {
+  @Inject('NOTIFICATIONS_SERVICE')
+  private readonly notificationsClient: ClientProxy;
+  @Inject('LEARNER_SERVICE')
+  private readonly learnerClient: ClientProxy;
+  @Inject('FORGE')
+  private readonly forgeClient: ClientProxy;
+
   getHello(): string {
     return 'Hello World!';
   }
@@ -13,6 +21,18 @@ export class CourseService {
   }
 
   handleCreateCourse(data: createCourseDTO) {
-    return data;
+    try {
+      // create course function
+      // TODO
+
+      // after course creation
+      this.notificationsClient.send(
+        { cmd: 'course_created' },
+        { message: `New course ${data.courseId} pending approval` },
+      );
+      return data;
+    } catch (error) {
+      console.error('error creating course: ', error);
+    }
   }
 }
