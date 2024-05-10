@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
@@ -16,6 +17,7 @@ export class AuthService {
     private usersService: UsersService,
     @InjectModel(Student.name) private studentModel: Model<Student>,
     @InjectModel(Instructor.name) private instructorModel: Model<Instructor>,
+    private jwtService: JwtService,
   ) {}
 
   onModuleInit() {
@@ -29,6 +31,7 @@ export class AuthService {
   ): Promise<{
     userObject?: LoginStudentResponseDTO | LoginInstructorResponseDTO;
     error?: 'nouser' | 'invalidpassword';
+    token?: string;
   }> {
     let user;
 
@@ -41,15 +44,19 @@ export class AuthService {
     if (!user) {
       return { userObject: null, error: 'nouser' };
     }
-    console.log('🚀 ~ AuthService ~ user after checking:', user);
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
       return { userObject: null, error: 'invalidpassword' };
     }
-
+    const token = await this.jwtService.signAsync({
+      email: user.email,
+      role: user.role,
+      //@ts-ignore
+      id: user._id,
+    });
     const plainObject = user.toJSON();
     const { password: pass, ...result } = plainObject;
-    return { userObject: result, error: null };
+    return { userObject: result, error: null, token: token };
   }
 }
