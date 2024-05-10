@@ -18,7 +18,7 @@ export class NotificationsController {
   }
 
   @MessagePattern({ cmd: 'notifications_health_check' })
-  getHealth() {
-    return this.notificationsService.getHealth();
+  getHealth(data: { testData: string }) {
+    return this.notificationsService.getHealth(data);
   }
 }

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { USERROLES } from '../../constants/user.constants';
 
 export type UserDocument = HydratedDocument<Instructor>;
@@ -18,21 +18,32 @@ export class Instructor {
   @Prop({ default: Date.now() })
   createdAt: Date;
 
+  @Prop({ required: true, minlength: 8 })
+  password: string;
+
   @Prop({ default: Date.now() })
   updatedAt: Date;
 
-  @Prop({ required: true, unique: true, match: /^[^s@]+@[^s@]+.[^s@]+$/ })
+  @Prop({ required: true, unique: true, match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })
   email: string;
 
   @Prop({ required: true, enum: Object.values(USERROLES) })
   role: string;
 
+  //TODO: Add publishedCourses as an array of course ids after course model is created
+
+  // @Prop({
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'courses',
+  //   required: true,
+  // })
+  // publishedCourses: mongoose.Types.ObjectId[];
+
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'courses',
+    ref: 'course',
     required: true,
   })
-  publishedCourses: mongoose.Types.ObjectId[];
+  publishedCourses: string[];
 }
 
 export const InstructorSchema = SchemaFactory.createForClass(Instructor);

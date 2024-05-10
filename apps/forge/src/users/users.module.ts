@@ -18,12 +18,14 @@ import { UsersService } from './users.service';
         options: { port: 3004 },
       },
     ]),
-    MongooseModule.forFeature([{ name: Student.name, schema: StudentSchema }]),
     MongooseModule.forFeature([
+      { name: Student.name, schema: StudentSchema },
       { name: Instructor.name, schema: InstructorSchema },
     ]),
   ],
+
   controllers: [UsersController],
   providers: [UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}

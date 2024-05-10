@@ -11,7 +11,12 @@ export class NotificationsService {
     console.log('Received user created event ~ 🚀 Notifications', data);
   }
 
-  getHealth() {
-    return { status: 'OK', service: 'notifications', timestamp: Date.now() };
+  getHealth(data: { testData: string }) {
+    return {
+      status: 'OK',
+      service: 'notifications',
+      timestamp: Date.now(),
+      test: data.testData,
+    };
   }
 }
