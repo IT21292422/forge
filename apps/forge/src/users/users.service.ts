@@ -6,10 +6,11 @@ import { Document, Model } from 'mongoose';
 import { UserAlreadyExistsException } from 'shared/exceptions/user.exceptions';
 import {
   CreateInstructorDTO,
+  CreateInstructorRequestDTO,
   CreateInstructorResponseDTO,
   CreateStudentDTO,
+  CreateStudentRequestDTO,
   CreateStudentResponseDTO,
-
 } from './dto/user.dto';
 import { Instructor } from './instructor/model/instructor.model';
 import { Student } from './student/model/student.model';
