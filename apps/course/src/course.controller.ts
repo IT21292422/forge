@@ -1,5 +1,5 @@
-import { Controller, Get, Post } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { Controller, Get } from '@nestjs/common';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 import { CreateUserEvent } from 'shared/events/auth.events';
 import { CourseService } from './course.service';
 import { createCourseDTO } from './dto/course.dto';
@@ -18,7 +18,7 @@ export class CourseController {
     this.courseService.handleUSerCreatedEvent(data);
   }
 
-  @Post()
+  @MessagePattern('create_course')
   createCourse(data: createCourseDTO): createCourseDTO {
     return this.courseService.handleCreateCourse(data);
   }

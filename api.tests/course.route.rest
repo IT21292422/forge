@@ -1,6 +1,6 @@
 ###
 # Create course
-POST http://localhost:3000/course/
+POST http://localhost:3005/course/
 Content-Type: application/json
 
 {
