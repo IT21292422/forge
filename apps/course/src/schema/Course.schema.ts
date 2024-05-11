@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { Chapter } from '../dto/course.dto';
 
 export type PaymentDocument = HydratedDocument<Course>;
 
@@ -10,6 +11,9 @@ export class Course {
 
   @Prop({ required: true })
   courseTitle: string;
+
+  @Prop({ required: true })
+  instructorId: string;
 
   @Prop({ required: true })
   publishedDate: string;
@@ -36,7 +40,7 @@ export class Course {
   isApproved: boolean;
 
   @Prop({ required: true })
-  chapters: string[];
+  chapters: Chapter[];
 }
 
 export const CourseSchema = SchemaFactory.createForClass(Course);

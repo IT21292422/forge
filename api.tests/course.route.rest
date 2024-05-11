@@ -39,6 +39,7 @@ Content-Type: application/json
 {
   "courseId": "C101",
   "courseTitle": "Introduction to Programming",
+  "instructorId":"qwerrty123",
   "publishedDate": "2024-05-11T12:34:56.789Z",
   "imgUrl": "https://example.com/programming-cover.jpg",
   "price": 49.99,
@@ -47,5 +48,20 @@ Content-Type: application/json
   "description": "Learn the basics of programming with this comprehensive course.",
   "WhatWillLearn": ["Basic syntax", "Control structures", "Functions"],
   "isApproved": false,
-  "chapters": ["test","test1"]
+  "chapters": [
+              {
+                "chapterId": "1",
+                "chapterTitle": "Introduction",
+                "pdfUrl": "",
+                "videoUrl": "",
+                "videoLength": "1 hour 30 minutes"
+            },
+            {
+                "chapterId": "1",
+                "chapterTitle": "Introduction",
+                "pdfUrl": "",
+                "videoUrl": "",
+                "videoLength": "1 hour 30 minutes"
+            }
+  ]
 }
