@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { CourseService } from './course.service';
 import { createCourseDTO } from './dto/course.dto';
@@ -49,5 +49,23 @@ export class CourseController {
     };
     console.log(data);
     return this.courseService.createTestCourseService(data);
+  }
+
+  @Get('getAllCourses')
+  async getAllCourseService(data: testCourse): Promise<{}> {
+    console.log('####################');
+    return this.courseService.getAllCourseService();
+  }
+
+  @Get('getSomeCourses/:id')
+  async getSomeCourseService(@Param('id') id: string): Promise<{}> {
+    console.log('####################', id);
+    return this.courseService.getOneCourseService(id);
+  }
+
+  @Get('getOneCourse/:id')
+  async getOneCourseService(@Param('id') id: string): Promise<{}> {
+    console.log('####################', id);
+    return this.courseService.getOneCourseService(id);
   }
 }

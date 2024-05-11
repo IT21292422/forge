@@ -34,4 +34,22 @@ export class CourseController {
     console.log('course test worked');
     return this.courseService.createTestCourseService(data);
   }
+
+  @MessagePattern({ cmd: 'findall_course' })
+  async findAllCourses(): Promise<{}> {
+    console.log('%%%%%%%%%%%%%%%%%%%');
+    return this.courseService.findAllCourses();
+  }
+
+  @MessagePattern({ cmd: 'findsome_course' })
+  async findAllByCourseId(courseId: string): Promise<{}> {
+    console.log('%%%%%%%%%%%%%%%%%%%', courseId);
+    return this.courseService.findAllByCourseId(courseId);
+  }
+
+  @MessagePattern({ cmd: 'findone_course' })
+  async findOneCourseById(courseId: string): Promise<{}> {
+    console.log('%%%%%%%%%%%%%%%%%%%', courseId);
+    return this.courseService.findOneCourseById(courseId);
+  }
 }

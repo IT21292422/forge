@@ -40,4 +40,19 @@ export class CourseService {
     const pattern = { cmd: 'test_course' };
     return data;
   }
+
+  async findAllCourses(): Promise<{}> {
+    console.log('&&&&&&&&&&&&&&&');
+    return this.courseModel.find().exec();
+  }
+
+  async findAllByCourseId(courseId: string): Promise<{}> {
+    console.log('&&&&&&&&&&&&&&&', courseId);
+    return this.courseModel.find({ courseId }).exec();
+  }
+
+  async findOneCourseById(courseId: string): Promise<{}> {
+    console.log('&&&&&&&&&&&&&&&', courseId);
+    return this.courseModel.findOne({ _id: courseId }).exec();
+  }
 }

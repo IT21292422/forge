@@ -65,3 +65,13 @@ Content-Type: application/json
             }
   ]
 }
+
+###
+
+GET http://localhost:3005/course/getAllCourses
+
+###
+GET http://localhost:3005/course/getSomeCourses/C101
+
+###
+GET http://localhost:3005/course/getOneCourse/C201
