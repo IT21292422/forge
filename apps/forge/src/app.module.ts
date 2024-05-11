@@ -6,8 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './course/course.module';
 import { DatabaseModule } from './db/db.module';
 import { HealthController } from './health/app.health.controller';
-import { UsersModule } from './users/users.module';
 import { LearnerModule } from './learner/learner.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [

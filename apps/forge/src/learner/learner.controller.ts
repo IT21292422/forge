@@ -1,35 +1,34 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Body, Controller, Get } from '@nestjs/common';
+import { courseDTO } from './dto/create-learner.dto';
 import { LearnerService } from './learner.service';
-import { CreateLearnerDto } from './dto/create-learner.dto';
-import { UpdateLearnerDto } from './dto/update-learner.dto';
 
-@Controller()
+@Controller('learner')
 export class LearnerController {
   constructor(private readonly learnerService: LearnerService) {}
 
-  @MessagePattern('createLearner')
-  create(@Payload() createLearnerDto: CreateLearnerDto) {
+  @Get('add')
+  create(@Body() createLearnerDto: courseDTO) {
     return this.learnerService.create(createLearnerDto);
   }
 
-  @MessagePattern('findAllLearner')
+  @Get('findeall')
   findAll() {
     return this.learnerService.findAll();
   }
 
-  @MessagePattern('findOneLearner')
-  findOne(@Payload() id: number) {
+  @Get('findeone')
+  findOne(@Body() id: number) {
     return this.learnerService.findOne(id);
   }
 
-  @MessagePattern('updateLearner')
-  update(@Payload() updateLearnerDto: UpdateLearnerDto) {
-    return this.learnerService.update(updateLearnerDto.id, updateLearnerDto);
+  @Get('update')
+  update(@Body() updateLearnerDto: courseDTO) {
+    return this.learnerService.update(updateLearnerDto);
   }
 
-  @MessagePattern('removeLearner')
-  remove(@Payload() id: number) {
+  
+  @Get('remove')
+  remove(@Body() id: number) {
     return this.learnerService.remove(id);
   }
 }

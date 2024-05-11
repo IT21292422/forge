@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateLearnerDto } from './dto/create-learner.dto';
-import { UpdateLearnerDto } from './dto/update-learner.dto';
+import { courseDTO } from './dto/create-learner.dto';
 
 @Injectable()
 export class LearnerService {
-  create(createLearnerDto: CreateLearnerDto) {
+  create(createLearnerDto: courseDTO) {
     return 'This action adds a new learner';
   }
 
@@ -13,11 +12,11 @@ export class LearnerService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} learner`;
+    return `This action returns a learner`;
   }
 
-  update(id: number, updateLearnerDto: UpdateLearnerDto) {
-    return `This action updates a #${id} learner`;
+  update(updateLearnerDto: courseDTO) {
+    return `This action updates a learner`;
   }
 
   remove(id: number) {
