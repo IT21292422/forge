@@ -1,10 +1,12 @@
-// import { CreateStudentRequestDTO } from '../users/dto/user.dto';
+// import { JwtService } from '@nestjs/jwt';
 
-// export const generateToken = (user: CreateStudentRequestDTO) => {
-//   const token = jwt.sign(
-//     { id: user.id, email: user.email, type: user.type },
-//     key as string,
-//     {},
-//   );
+// export const generateToken = async (user: CreateStudentRequestDTO) => {
+//   //   const token = jwt.sign(
+//   //     { id: user.id, email: user.email, type: user.type },
+//   //     key as string,
+//   //     {},
+//   //   );
+//   const token = JwtService;
+
 //   return token;
 // };

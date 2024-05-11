@@ -14,10 +14,21 @@ Content-Type: application/json
 {
     "firstName": "super",
     "lastName": "man",
+    "email": "c.wick400@gmail.com",
+    "role": "instructor",
+    "publishedCourses": ["C10"],
+    "password": "password"
+}
+
+###
+#Login user
+POST http://localhost:3005/auth/login
+Content-Type: application/json
+
+{
     "email": "supes@gmail.com",
     "role": "student",
-    "year": 4,
-    "enrolledCourses": ["C10"]
+    "password": "password"
 }
 
 ###

@@ -7,6 +7,7 @@ import { HealthController } from './health/app.health.controller';
 import { PaymentController } from './payment/payment.controller';
 import { PaymentService } from './payment/payment.service';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { UsersModule } from './users/users.module';
     ]),
     DatabaseModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController, HealthController, PaymentController],
   providers: [AppService, PaymentService],

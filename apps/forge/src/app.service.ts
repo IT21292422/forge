@@ -20,20 +20,16 @@ export class AppService {
 
   createUser(signUpRequest: SignUpRequestDTO) {
     console.log('Received create user request', signUpRequest);
-    this.notificationsClient.emit(
-      'user_created',
-      new CreateUserEvent(signUpRequest.email),
-    );
     this.learnerClient.emit(
-      'user_created',
+      'test_event',
       new CreateUserEvent(signUpRequest.email),
     );
     this.courseClient.emit(
-      'user_created',
+      'test_event',
       new CreateUserEvent(signUpRequest.email),
     );
     this.paymentClient.emit(
-      'user_created',
+      'test_event',
       new CreateUserEvent(signUpRequest.email),
     );
   }
@@ -45,7 +41,7 @@ export class AppService {
   async getNotificationHealth() {
     return this.notificationsClient.send(
       { cmd: 'notifications_health_check' },
-      {},
+      { testData: 'succesffuly received package' },
     );
   }
 }

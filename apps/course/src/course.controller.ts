@@ -11,7 +11,7 @@ export class CourseController {
   getHello(): string {
     return this.courseService.getHello();
   }
-  @EventPattern('user_created')
+  @EventPattern('test_event')
   handleUSerCreatedEvent(data: CreateUserEvent) {
     this.courseService.handleUSerCreatedEvent(data);
   }
