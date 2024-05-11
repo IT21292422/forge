@@ -20,3 +20,8 @@ export interface Chapter {
   videoUrl: String;
   videoLength: String;
 }
+
+export interface UpdateApprove {
+  courseId: String;
+  isApproved: boolean;
+}
