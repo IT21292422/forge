@@ -57,11 +57,11 @@ export class CourseController {
     return this.courseService.getAllCourseService();
   }
 
-  @Get('getSomeCourses/:id')
-  async getSomeCourseService(@Param('id') id: string): Promise<{}> {
-    console.log('####################', id);
-    return this.courseService.getOneCourseService(id);
-  }
+  // @Get('getSomeCourses/:id')
+  // async getSomeCourseService(@Param('id') id: string): Promise<{}> {
+  //   console.log('####################', id);
+  //   return this.courseService.getOneCourseService(id);
+  // }
 
   @Get('getOneCourse/:id')
   async getOneCourseService(@Param('id') id: string): Promise<{}> {
