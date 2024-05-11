@@ -1,18 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { courseDTO } from './dto/create-learner.dto';
 
 @Injectable()
 export class LearnerService {
+
+  constructor(
+    @Inject('LEARNER_SERVICE') private readonly learnerClient: ClientProxy,
+  ) {}
+  
   create(createLearnerDto: courseDTO) {
     return 'This action adds a new learner';
   }
 
   findAll() {
-    return `This action returns all learner`;
+    return this.learnerClient.send({ cmd: 'get_courses' }, {});
   }
 
-  findOne(id: number) {
-    return `This action returns a learner`;
+  findOne(id: string) {
+    return this.learnerClient.send({ cmd: 'get_course_by_id' }, {id});
   }
 
   update(updateLearnerDto: courseDTO) {

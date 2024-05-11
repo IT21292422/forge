@@ -16,15 +16,15 @@ export class LearnerService {
   }
 
   getAllCourses(){
-    return this.courseClient.send({cmd: 'get_courses'}, {});
+    return this.courseClient.send({cmd: 'findall_course'}, {});
   }
 
   getUserCourses(){
     //Get Enrolled courses of user
   }
 
-  getCourseById(){
-    return this.courseClient.send({cmd: 'get_course_id'}, {});
+  getCourseById(id:string){
+    return this.courseClient.send({cmd: 'findone_course'}, {id});
   }
 
   enrollCourse(){
