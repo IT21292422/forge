@@ -3,6 +3,11 @@ import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserEvent } from 'shared/events/auth.events';
 import { createCourseDTO } from './dto/course.dto';
 
+export interface testCourse {
+  name: string;
+  id: Number;
+}
+
 @Injectable()
 export class CourseService {
   @Inject('NOTIFICATIONS_SERVICE')
@@ -34,5 +39,11 @@ export class CourseService {
     } catch (error) {
       console.error('error creating course: ', error);
     }
+  }
+
+  async createTestCourseService(data: testCourse): Promise<testCourse> {
+    console.log('forge test worked');
+    const pattern = { cmd: 'test_course' };
+    return data;
   }
 }

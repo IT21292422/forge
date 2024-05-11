@@ -1,7 +1,7 @@
 export interface createCourseDTO {
   courseId: String;
   courseTitle: String;
-  publishedDate: Date['toISOString'];
+  publishedDate: Date;
   imgUrl: String; // cover for card
   price: Number;
   categories: String;

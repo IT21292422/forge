@@ -4,6 +4,11 @@ import { CreateUserEvent } from 'shared/events/auth.events';
 import { CourseService } from './course.service';
 import { createCourseDTO } from './dto/course.dto';
 
+export interface testCourse {
+  name: string;
+  id: Number;
+}
+
 @Controller('course')
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
@@ -21,5 +26,11 @@ export class CourseController {
   @MessagePattern('create_course')
   createCourse(data: createCourseDTO): createCourseDTO {
     return this.courseService.handleCreateCourse(data);
+  }
+
+  @MessagePattern({ cmd: 'test_course' })
+  async createTestCourseService(data: testCourse): Promise<{}> {
+    console.log('course test worked');
+    return this.courseService.createTestCourseService(data);
   }
 }
