@@ -53,6 +53,6 @@ export class CourseService {
 
   async findOneCourseById(courseId: string): Promise<{}> {
     console.log('&&&&&&&&&&&&&&&', courseId);
-    return this.courseModel.findOne({ _id: courseId }).exec();
+    return this.courseModel.findOne({ courseId }).exec();
   }
 }
