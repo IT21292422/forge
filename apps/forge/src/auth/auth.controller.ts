@@ -20,6 +20,7 @@ export class AuthController {
     const result: {
       userObject?: LoginStudentResponseDTO | LoginInstructorResponseDTO;
       error?: 'nouser' | 'invalidpassword';
+      token?: string;
     } = await this.authService.validateUser(
       params.email,
       params.password,
@@ -31,7 +32,7 @@ export class AuthController {
     } else if (result.error === 'invalidpassword') {
       return WrongPasswordException();
     } else {
-      return result.userObject;
+      return { ...result.userObject, token: result.token };
     }
   }
 }
