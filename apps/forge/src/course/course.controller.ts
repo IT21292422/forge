@@ -73,4 +73,9 @@ export class CourseController {
   async updateIsApproved(@Body() data): Promise<Observable<{}>> {
     return this.courseService.updateIsApproved(data);
   }
+
+  @Put('addnewchapter')
+  async addChapter(@Body() data): Promise<{}> {
+    return this.courseService.addChapter(data);
+  }
 }

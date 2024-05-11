@@ -3,7 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserEvent } from 'shared/events/auth.events';
-import { createCourseDTO } from './dto/course.dto';
+import { Chapter, createCourseDTO } from './dto/course.dto';
 import { Course } from './schema/Course.schema';
 
 export interface testCourse {
@@ -60,5 +60,18 @@ export class CourseService {
     return this.courseModel
       .findOneAndUpdate({ courseId }, { $set: { isApproved } }, { new: true })
       .exec();
+  }
+
+  async addChapter(courseId: string, newChapter: Chapter): Promise<Course> {
+    try {
+      const course = await this.courseModel.findOne({ courseId });
+      if (!course) {
+        throw new Error('Course not found');
+      }
+      course.chapters.push(newChapter);
+      return await course.save();
+    } catch (error) {
+      throw new Error(`Failed to add chapter: ${error.message}`);
+    }
   }
 }
