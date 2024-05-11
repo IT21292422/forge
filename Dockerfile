@@ -313,6 +313,9 @@ RUN npm run build
 # Production image
 FROM node:20-alpine
 
+ARG APP
+ARG EXE_PORT
+
 # Set the working directory
 WORKDIR /app/${APP}/dist/apps/${APP}
 
@@ -328,11 +331,12 @@ COPY --from=builder /app/${APP}/.env ./
 # Install only production dependencies
 RUN npm install --production
 
+EXPOSE ${EXE_PORT}
+
 ENV APP_MAIN_FILE=dist/apps/${APP}/main 
 CMD node ${APP_MAIN_FILE}
 
 # # Expose the port your NestJS application will run on
-# EXPOSE 3004
 # # Set environment variables
 # CMD ["sh", "-c", "export $(cat /app/course/.env | xargs) && node main.js"]
 

@@ -1,0 +1,10 @@
+POST http://localhost:3005/payment/add
+Content-Type: application/json
+
+{
+  "learnerId": "string",
+  "courseId": "string",
+  "orderId": "string",
+  "amount": 123,
+  "dateTime": 123456789
+}

@@ -1,5 +1,6 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ClientProxy } from '@nestjs/microservices';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Document, Model } from 'mongoose';
@@ -10,12 +11,15 @@ import {
   CreateStudentRequestDTO,
   CreateStudentResponseDTO,
 } from './dto/user.dto';
+import { NewUserCreatedEvent } from './events/user.events';
 import { Instructor } from './instructor/model/instructor.model';
 import { Student } from './student/model/student.model';
 
 @Injectable()
 export class UsersService {
   constructor(
+    @Inject('NOTIFICATIONS_SERVICE')
+    private readonly notificationsClient: ClientProxy,
     @InjectModel(Student.name) private studentModel: Model<Student>,
     @InjectModel(Instructor.name) private instructorModel: Model<Instructor>,
     private jwtService: JwtService,
@@ -47,6 +51,10 @@ export class UsersService {
           id: rest._id,
         });
         const { password, ...resultWithoutPassword } = plainObject;
+        this.notificationsClient.emit(
+          'new_user_created',
+          new NewUserCreatedEvent(rest.email),
+        );
         return { ...resultWithoutPassword, token };
       } else {
         const instructor = new this.instructorModel({
@@ -59,10 +67,14 @@ export class UsersService {
         const token = await this.jwtService.signAsync({
           email: rest.email,
           role: rest.role,
-          //@ts-ignore
+          // @ts-ignore
           id: rest._id,
         });
         const { password, ...resultWithoutPassword } = plainObject;
+        this.notificationsClient.emit(
+          'new_user_created',
+          new NewUserCreatedEvent(rest.email),
+        );
         return { ...resultWithoutPassword, token };
       }
     } catch (error) {

@@ -11,7 +11,7 @@ export class LearnerController {
   getHello(): string {
     return this.learnerService.getHello();
   }
-  @EventPattern('user_created')
+  @EventPattern('test_event')
   handleUserCreatedEvent(data: CreateUserEvent) {
     this.learnerService.handleUserCreated(data);
   }
