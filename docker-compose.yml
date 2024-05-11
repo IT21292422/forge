@@ -6,8 +6,9 @@ services:
       context: .
       args:
         - APP=forge
+        - EXE_PORT=3005
     restart: always
     ports:
-      - 3000:3000
+      - 3005:3005
 # run this
 # docker-compose up -d

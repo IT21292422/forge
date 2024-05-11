@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './db/db.module';
 import { HealthController } from './health/app.health.controller';
+import { PaymentController } from './payment/payment.controller';
+import { PaymentService } from './payment/payment.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -35,7 +37,7 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     AuthModule,
   ],
-  controllers: [AppController, HealthController],
-  providers: [AppService],
+  controllers: [AppController, HealthController, PaymentController],
+  providers: [AppService, PaymentService],
 })
 export class AppModule {}
