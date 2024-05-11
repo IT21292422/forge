@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { NewChapter } from 'apps/course/src/dto/course.dto';
 import { Observable } from 'rxjs/internal/Observable';
 import { createCourseDTO } from './dto/course.dto';
 
@@ -71,5 +72,10 @@ export class CourseService {
   async updateIsApproved(updateObj): Promise<Observable<testCourse>> {
     console.log('%%%%%%%%%%%%%%%%%%%', updateObj.courseId, updateObj.status);
     return this.courseClient.send({ cmd: 'update_course_status' }, updateObj);
+  }
+
+  async addChapter(updateObj: NewChapter): Promise<{}> {
+    console.log(updateObj.courseId);
+    return this.courseClient.send({ cmd: 'add_new_chapter' }, updateObj);
   }
 }

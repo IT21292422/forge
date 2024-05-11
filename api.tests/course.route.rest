@@ -84,3 +84,18 @@ Content-Type: application/json
   "courseId":"C201",
   "isApproved":true
 }
+
+###
+PUT  http://localhost:3005/course/addnewchapter
+Content-Type: application/json
+
+{
+  "courseId": "C201",
+  "newChapter": {
+    "chapterId": "1234",
+    "chapterTitle": "12334",
+    "pdfUrl": "2345",
+    "videoUrl": "2345",
+    "videoLength": "1223"
+  }
+}

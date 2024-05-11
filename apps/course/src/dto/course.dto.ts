@@ -25,3 +25,8 @@ export interface UpdateApprove {
   courseId: String;
   isApproved: boolean;
 }
+
+export interface NewChapter {
+  courseId: String;
+  newChapter: Chapter;
+}

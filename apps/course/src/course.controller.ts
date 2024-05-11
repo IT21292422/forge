@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { EventPattern, MessagePattern } from '@nestjs/microservices';
 import { CreateUserEvent } from 'shared/events/auth.events';
 import { CourseService } from './course.service';
-import { createCourseDTO, UpdateApprove } from './dto/course.dto';
+import { createCourseDTO, NewChapter, UpdateApprove } from './dto/course.dto';
 
 export interface testCourse {
   name: string;
@@ -63,6 +63,14 @@ export class CourseController {
     return this.courseService.updateIsApproved(
       updateObj.courseId.toString(),
       updateObj.isApproved,
+    );
+  }
+
+  @MessagePattern({ cmd: 'add_new_chapter' })
+  async addChapter(updateObj: NewChapter): Promise<{}> {
+    return this.courseService.addChapter(
+      updateObj.courseId.toString(),
+      updateObj.newChapter,
     );
   }
 }
