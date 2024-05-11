@@ -13,7 +13,7 @@ export class AppController {
 
   //3000/api/users
   @Post()
-  createUser(@Body() signUpRequest: SignUpRequestDTO) {
+  async createUser(@Body() signUpRequest: SignUpRequestDTO) {
     this.appService.createUser(signUpRequest);
   }
 }
