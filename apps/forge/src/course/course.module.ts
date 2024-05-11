@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { MongooseModule } from '@nestjs/mongoose';
 import { CourseController } from './course.controller';
 import { CourseService } from './course.service';
-import { DatabaseModule } from './db/db.module';
-import { Course, CourseSchema } from './schema/Course.schema';
 
 @Module({
   imports: [
@@ -15,21 +12,14 @@ import { Course, CourseSchema } from './schema/Course.schema';
         options: { port: 3004 },
       },
       {
-        name: 'FORGE',
+        name: 'COURSE_SERVICE',
         transport: Transport.TCP,
-        options: { port: 3005 },
+        options: { port: 3003 },
       },
       {
         name: 'LEARNER_SERVICE',
         transport: Transport.TCP,
         options: { port: 3001 },
-      },
-    ]),
-    DatabaseModule,
-    MongooseModule.forFeature([
-      {
-        name: Course.name,
-        schema: CourseSchema,
       },
     ]),
   ],

@@ -1,0 +1,77 @@
+###
+# Create course
+POST http://localhost:3005/course/
+Content-Type: application/json
+
+{
+  "courseId": "c01",
+  "courseTitle": "course one",
+  "publishedDate": "2024-05-09T10:00:00.000Z",
+  "imgUrl": "http://imgurl.com/c01.png",
+  "price": 50.00,
+  "categories": "programming",
+  "tags": ["tag1", "tag2", "tag3"],
+  "description": "This is a description of the course.",
+  "WhatWillLearn": ["Skill 1", "Skill 2", "Skill 3"],
+  "isApproved": true,
+  "chapters": [
+    {
+      "chapterId": 1,
+      "chapterTitle": "Chapter 1",
+      "pdfUrl": "http://pdfurl.com/chapter1.pdf",
+      "videoUrl": "http://videourl.com/chapter1.mp4",
+      "videoLength": "30:00"
+    },
+    {
+      "chapterId": 2,
+      "chapterTitle": "Chapter 2",
+      "pdfUrl": "http://pdfurl.com/chapter2.pdf",
+      "videoUrl": "http://videourl.com/chapter2.mp4",
+      "videoLength": "45:00"
+    }
+  ]
+}
+###
+
+POST http://localhost:3005/course/crate_course
+Content-Type: application/json
+
+{
+  "courseId": "C101",
+  "courseTitle": "Introduction to Programming",
+  "instructorId":"qwerrty123",
+  "publishedDate": "2024-05-11T12:34:56.789Z",
+  "imgUrl": "https://example.com/programming-cover.jpg",
+  "price": 49.99,
+  "categories": "Programming",
+  "tags": ["beginner", "coding", "programming"],
+  "description": "Learn the basics of programming with this comprehensive course.",
+  "WhatWillLearn": ["Basic syntax", "Control structures", "Functions"],
+  "isApproved": false,
+  "chapters": [
+              {
+                "chapterId": "1",
+                "chapterTitle": "Introduction",
+                "pdfUrl": "",
+                "videoUrl": "",
+                "videoLength": "1 hour 30 minutes"
+            },
+            {
+                "chapterId": "1",
+                "chapterTitle": "Introduction",
+                "pdfUrl": "",
+                "videoUrl": "",
+                "videoLength": "1 hour 30 minutes"
+            }
+  ]
+}
+
+###
+
+GET http://localhost:3005/course/getAllCourses
+
+###
+# GET http://localhost:3005/course/getSomeCourses/C101
+
+###
+GET http://localhost:3005/course/getOneCourse/C201

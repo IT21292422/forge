@@ -2,12 +2,14 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { CourseModule } from './course/course.module';
 import { DatabaseModule } from './db/db.module';
 import { HealthController } from './health/app.health.controller';
+import { LearnerModule } from './learner/learner.module';
 import { PaymentController } from './payment/payment.controller';
 import { PaymentService } from './payment/payment.service';
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -35,7 +37,9 @@ import { AuthModule } from './auth/auth.module';
     ]),
     DatabaseModule,
     UsersModule,
+    CourseModule,
     AuthModule,
+    LearnerModule,
   ],
   controllers: [AppController, HealthController, PaymentController],
   providers: [AppService, PaymentService],
