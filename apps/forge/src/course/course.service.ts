@@ -67,4 +67,9 @@ export class CourseService {
     console.log('$$$$$$$$$$$$$$$$$$$$', id);
     return this.courseClient.send<testCourse>(pattern, id);
   }
+
+  async updateIsApproved(updateObj): Promise<Observable<testCourse>> {
+    console.log('%%%%%%%%%%%%%%%%%%%', updateObj.courseId, updateObj.status);
+    return this.courseClient.send({ cmd: 'update_course_status' }, updateObj);
+  }
 }

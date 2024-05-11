@@ -75,3 +75,12 @@ GET http://localhost:3005/course/getAllCourses
 
 ###
 GET http://localhost:3005/course/getOneCourse/C201
+
+###
+PUT  http://localhost:3005/course/setapproved
+Content-Type: application/json
+
+{
+  "courseId":"C201",
+  "isApproved":true
+}

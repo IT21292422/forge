@@ -55,4 +55,10 @@ export class CourseService {
     console.log('&&&&&&&&&&&&&&&', courseId);
     return this.courseModel.findOne({ courseId }).exec();
   }
+
+  async updateIsApproved(courseId: string, isApproved: boolean): Promise<{}> {
+    return this.courseModel
+      .findOneAndUpdate({ courseId }, { $set: { isApproved } }, { new: true })
+      .exec();
+  }
 }
