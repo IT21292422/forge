@@ -12,11 +12,26 @@ export interface testCourse {
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
-  @Post()
+  @Post('crate_course')
   async createCourse(
     @Body() data: createCourseDTO,
   ): Promise<Observable<createCourseDTO>> {
-    return this.courseService.handleCreateCourse(data);
+    // const courseExample: createCourseDTO = {
+    //   courseId: 'C101',
+    //   courseTitle: 'Introduction to Programming',
+    //   publishedDate: new Date(),
+    //   imgUrl: 'https://example.com/programming-cover.jpg',
+    //   price: 49.99,
+    //   categories: 'Programming',
+    //   tags: ['beginner', 'coding', 'programming'],
+    //   description:
+    //     'Learn the basics of programming with this comprehensive course.',
+    //   WhatWillLearn: ['Basic syntax', 'Control structures', 'Functions'],
+    //   isApproved: true,
+    //   chapters: null,
+    // };
+    const courseExample = data;
+    return this.courseService.handleCreateCourse(courseExample);
   }
 
   // @Post('test')

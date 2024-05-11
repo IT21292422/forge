@@ -31,3 +31,21 @@ Content-Type: application/json
     }
   ]
 }
+###
+
+POST http://localhost:3005/course/crate_course
+Content-Type: application/json
+
+{
+  "courseId": "C101",
+  "courseTitle": "Introduction to Programming",
+  "publishedDate": "2024-05-11T12:34:56.789Z",
+  "imgUrl": "https://example.com/programming-cover.jpg",
+  "price": 49.99,
+  "categories": "Programming",
+  "tags": ["beginner", "coding", "programming"],
+  "description": "Learn the basics of programming with this comprehensive course.",
+  "WhatWillLearn": ["Basic syntax", "Control structures", "Functions"],
+  "isApproved": false,
+  "chapters": ["test","test1"]
+}

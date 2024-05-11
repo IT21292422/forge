@@ -23,8 +23,9 @@ export class CourseController {
     this.courseService.handleUSerCreatedEvent(data);
   }
 
-  @MessagePattern('create_course')
-  createCourse(data: createCourseDTO): createCourseDTO {
+  @MessagePattern({ cmd: 'create_course' })
+  async createCourse(data: createCourseDTO): Promise<{}> {
+    console.log('create course worked');
     return this.courseService.handleCreateCourse(data);
   }
 

@@ -1,7 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateUserEvent } from 'shared/events/auth.events';
 import { createCourseDTO } from './dto/course.dto';
+import { Course } from './schema/Course.schema';
 
 export interface testCourse {
   name: string;
@@ -17,6 +20,8 @@ export class CourseService {
   @Inject('FORGE')
   private readonly forgeClient: ClientProxy;
 
+  constructor(@InjectModel(Course.name) private courseModel: Model<Course>) {}
+
   getHello(): string {
     return 'Hello World!';
   }
@@ -26,19 +31,8 @@ export class CourseService {
   }
 
   handleCreateCourse(data: createCourseDTO) {
-    try {
-      // create course function
-      // TODO
-
-      // after course creation
-      this.notificationsClient.send(
-        { cmd: 'course_created' },
-        { message: `New course ${data.courseId} pending approval` },
-      );
-      return data;
-    } catch (error) {
-      console.error('error creating course: ', error);
-    }
+    const result = new this.courseModel(data).save();
+    return result;
   }
 
   async createTestCourseService(data: testCourse): Promise<testCourse> {
