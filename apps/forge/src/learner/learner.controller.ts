@@ -1,4 +1,4 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param } from '@nestjs/common';
 import { courseDTO } from './dto/create-learner.dto';
 import { LearnerService } from './learner.service';
 
@@ -11,13 +11,13 @@ export class LearnerController {
     return this.learnerService.create(createLearnerDto);
   }
 
-  @Get('findeall')
+  @Get()
   findAll() {
     return this.learnerService.findAll();
   }
 
-  @Get('findeone')
-  findOne(@Body() id: number) {
+  @Get('/:id')
+  findOne(@Param('id') id: string) {
     return this.learnerService.findOne(id);
   }
 

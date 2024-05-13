@@ -48,9 +48,10 @@ export class CourseController {
   }
 
   @MessagePattern({ cmd: 'findone_course' })
-  async findOneCourseById(courseId: string): Promise<{}> {
-    console.log('%%%%%%%%%%%%%%%%%%%', courseId);
-    return this.courseService.findOneCourseById(courseId);
+  async findOneCourseById(data: any): Promise<{}> {
+    const { id } = data;
+    console.log('%%%%%%%%%%%%%%%%%%%', id);
+    return this.courseService.findOneCourseById(id);
   }
 
   @MessagePattern({ cmd: 'update_course_status' })
