@@ -35,10 +35,6 @@ export class LearnerService {
 
   }
 
-  getUser(){
-
-  }
-
   getProgress(){
     
   }

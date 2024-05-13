@@ -1,17 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { courseDTO } from './dto/create-learner.dto';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class LearnerService {
 
   constructor(
     @Inject('LEARNER_SERVICE') private readonly learnerClient: ClientProxy,
+    private readonly usersService: UsersService
   ) {}
   
-  create(createLearnerDto: courseDTO) {
-    return 'This action adds a new learner';
-  }
 
   findAll() {
     return this.learnerClient.send({ cmd: 'get_courses' }, {});
@@ -21,11 +19,16 @@ export class LearnerService {
     return this.learnerClient.send({ cmd: 'get_course_by_id' }, {id});
   }
 
-  update(updateLearnerDto: courseDTO) {
-    return `This action updates a learner`;
+  findInstructor(id: string){
+    return this.usersService.findOne(id.valueOf(),"instructor");
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} learner`;
+  enrollCourse(sid:string , cid: string) {
+    return this.usersService.enrollUser(sid,cid);
   }
+
+  unenrollCourse(sid:string , cid: string){
+    return this.usersService.unenrollUser(sid,cid);
+  }
+
 }
