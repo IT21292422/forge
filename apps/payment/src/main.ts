@@ -7,7 +7,10 @@ async function bootstrap() {
     PaymentModule,
     {
       transport: Transport.TCP,
-      options: { port: 3002 },
+      options: {
+        host: '0.0.0.0',
+        port: 3002,
+      },
     },
   );
   await app.listen();

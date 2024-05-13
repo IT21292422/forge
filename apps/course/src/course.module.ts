@@ -12,17 +12,26 @@ import { Course, CourseSchema } from './schema/Course.schema';
       {
         name: 'NOTIFICATIONS_SERVICE',
         transport: Transport.TCP,
-        options: { port: 3004 },
+        options: {
+          host: '0.0.0.0',
+          port: 3004,
+        },
       },
       {
         name: 'FORGE',
         transport: Transport.TCP,
-        options: { port: 3005 },
+        options: {
+          host: '0.0.0.0',
+          port: 3005,
+        },
       },
       {
         name: 'LEARNER_SERVICE',
         transport: Transport.TCP,
-        options: { port: 3001 },
+        options: {
+          host: '0.0.0.0',
+          port: 3001,
+        },
       },
     ]),
     DatabaseModule,

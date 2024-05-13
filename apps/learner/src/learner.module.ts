@@ -10,22 +10,34 @@ import { LearnerService } from './learner.service';
       {
         name: 'NOTIFICATIONS_SERVICE',
         transport: Transport.TCP,
-        options: { port: 3004 },
+        options: {
+          host: '0.0.0.0',
+          port: 3004,
+        },
       },
       {
         name: 'COURSE_SERVICE',
         transport: Transport.TCP,
-        options: { port: 3003 },
+        options: {
+          host: '0.0.0.0',
+          port: 3003,
+        },
       },
       {
         name: 'PAYMENT_SERVICE',
         transport: Transport.TCP,
-        options: { port: 3002 },
+        options: {
+          host: '0.0.0.0',
+          port: 3002,
+        },
       },
       {
         name: 'LEARNER_SERVICE',
         transport: Transport.TCP,
-        options: { port: 3001 },
+        options: {
+          host: '0.0.0.0',
+          port: 3001,
+        },
       },
     ]),
     DatabaseModule,
