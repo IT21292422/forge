@@ -1,14 +1,115 @@
-version: '3'
+# version: '3.8'
+# services:
+#   app0:
+#     image: forge
+#     ports:
+#       - 3005:3005
+#     environment:
+#       - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+#     networks:
+#       - my-network
+#   app1:
+#     image: learner
+#     ports:
+#       - 3001:3001
+#     environment:
+#       - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+#     networks:
+#       - my-network
+#   app2:
+#     image: payment
+#     ports:
+#       - 3002:3002
+#     environment:
+#       - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+#     networks:
+#       - my-network
+#   app3:
+#     image: course
+#     ports:
+#       - 3003:3003
+#     environment:
+#       - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+#     networks:
+#       - my-network
+#   app4:
+#     image: notifications
+#     ports:
+#       - 3004:3004
+#     environment:
+#       - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+#     networks:
+#       - my-network
+
+# networks:
+#   my-network:
+#     driver: bridge
+# #############################################
+# ##! Need to run below commands
+# # sudo docker build -f apps/forge/Dockerfile -t forge .
+# # sudo docker build -f apps/course/Dockerfile -t course .
+# # sudo docker build -f apps/learner/Dockerfile -t learner .
+# # sudo docker build -f apps/notifications/Dockerfile -t notifications .
+# # sudo docker build -f apps/payment/Dockerfile -t payment .
+# # sudo docker compose up
+# # sudo docker compose down
+
+version: '3.8'
+
 services:
-  mono-app-1:
-    container_name: forge-app
-    build:
-      context: .
-      args:
-        - APP=forge
-        - EXE_PORT=3005
-    restart: always
+  app0:
+    image: forge
     ports:
       - 3005:3005
-# run this
-# docker-compose up -d
+    environment:
+      - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+    networks:
+      - my-network
+
+  app1:
+    image: learner
+    depends_on:
+      - app0
+    ports:
+      - 3001:3001
+    environment:
+      - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+    networks:
+      - my-network
+
+  app2:
+    image: payment
+    depends_on:
+      - app0
+    ports:
+      - 3002:3002
+    environment:
+      - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+    networks:
+      - my-network
+
+  app3:
+    image: course
+    depends_on:
+      - app0
+    ports:
+      - 3003:3003
+    environment:
+      - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+    networks:
+      - my-network
+
+  app4:
+    image: notifications
+    depends_on:
+      - app0
+    ports:
+      - 3004:3004
+    environment:
+      - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    external: true
