@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { DatabaseModule } from '../db/db.module';
+import { UsersModule } from '../users/users.module';
 import { LearnerController } from './learner.controller';
 import { LearnerService } from './learner.service';
 
@@ -30,6 +31,7 @@ import { LearnerService } from './learner.service';
     ]),
     DatabaseModule,
     LearnerModule,
+    UsersModule
   ],
   controllers: [LearnerController],
   providers: [LearnerService],

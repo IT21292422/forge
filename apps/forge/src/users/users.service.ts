@@ -143,4 +143,12 @@ export class UsersService {
       return await this.instructorModel.findByIdAndDelete(id).exec();
     }
   }
+
+  async enrollUser(sid: string, cid: string){
+    return await this.studentModel.findByIdAndUpdate(sid, {$push: {enrolledCourses: cid}})
+  }
+
+  async unenrollUser(sid: string, cid: string){
+    return await this.studentModel.findByIdAndUpdate(sid, {$pull: {enrolledCourses: cid}})
+  }
 }
