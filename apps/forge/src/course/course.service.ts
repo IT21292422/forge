@@ -50,22 +50,22 @@ export class CourseService {
   }
 
   async getAllCourseService(): Promise<Observable<testCourse>> {
-    console.log('forge all worked');
-    console.log('$$$$$$$$$$$$$$$$$$$$$');
+    // console.log('forge all worked');
+    // console.log('$$$$$$$$$$$$$$$$$$$$$');
     const pattern = { cmd: 'findall_course' };
     const data = '';
     return this.courseClient.send<testCourse>(pattern, data);
   }
   async getSomeCourseService(id: string): Promise<Observable<testCourse>> {
-    console.log('forge some worked');
+    // console.log('forge some worked');
     const pattern = { cmd: 'findsome_course' };
-    console.log('$$$$$$$$$$$$$$$$$$$$', id);
+    // console.log('$$$$$$$$$$$$$$$$$$$$', id);
     return this.courseClient.send<testCourse>(pattern, id);
   }
   async getOneCourseService(id: string): Promise<Observable<testCourse>> {
-    console.log('forge one worked');
+    // console.log('forge one worked');
     const pattern = { cmd: 'findone_course' };
-    console.log('$$$$$$$$$$$$$$$$$$$$', id);
+    // console.log('$$$$$$$$$$$$$$$$$$$$', id);
     return this.courseClient.send<testCourse>(pattern, id);
   }
 
