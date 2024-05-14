@@ -6,6 +6,15 @@
 ##* if need to Clear Docker Cache
 ## docker builder prune --all --force
 
+##* Create network
+# docker network create my-network
+# sudo docker network connect my-network forge-forge-1
+# sudo docker network disconnect my-network forge-forge-1
+
+##* Inspect network
+# docker network inspect my-network
+# sudo docker network ls
+
 ## ! ############# Docker build for forge ###########################
 # # Base image
 # FROM node:20-alpine AS builder
@@ -342,3 +351,18 @@ CMD node ${APP_MAIN_FILE}
 
 # sudo docker build -t course-app -f Dockerfile .
 # sudo docker run -p 3003:3003 course-app
+
+
+#################################
+
+# sudo docker run --env-file .env -p 3005:3005 forge
+# sudo docker run --env-file .env -p 3004:3004 course
+
+# sudo docker run -it --rm --env-file .env -p 3005:3005 --name forge forge
+# sudo docker run -it --rm --env-file .env -p 3004:3004 --name course course
+
+# sudo docker run --env-file .env -p 3004:3004 course
+
+# sudo docker run --env-file .env -p 3005:3005 forge
+# sudo docker run --env-file .env -p 3005:3005 forgesudo docker network inspect my-network
+
