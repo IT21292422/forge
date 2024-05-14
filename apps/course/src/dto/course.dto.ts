@@ -22,7 +22,7 @@ export interface Chapter {
 }
 
 export interface UpdateApprove {
-  courseId: String;
+  courseId: string;
   isApproved: boolean;
 }
 

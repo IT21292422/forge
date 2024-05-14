@@ -48,7 +48,10 @@ export class UsersController {
     @Body() user: CreateStudentRequestDTO | CreateInstructorRequestDTO,
   ) {
     try {
-      console.log('🚀 ~ UsersController ~ createUser ~ user:', user);
+      console.log(
+        '🚀 ~ Received user creation event in UsersController ~ createUser ~ user:',
+        user,
+      );
       const result = await this.usersService.create(user);
 
       console.log('🚀 ~ UsersController ~ createUser ~ result:', result);

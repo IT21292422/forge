@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { CourseService } from './course.service';
 import { createCourseDTO } from './dto/course.dto';
@@ -69,7 +69,7 @@ export class CourseController {
     return this.courseService.getOneCourseService(id);
   }
 
-  @Put('setapproved')
+  @Patch('setapproved')
   async updateIsApproved(@Body() data): Promise<Observable<{}>> {
     return this.courseService.updateIsApproved(data);
   }

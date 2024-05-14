@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
@@ -10,6 +14,7 @@ import {
 import { Instructor } from '../users/instructor/model/instructor.model';
 import { Student } from '../users/student/model/student.model';
 import { UsersService } from '../users/users.service';
+import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -58,5 +63,24 @@ export class AuthService {
     const plainObject = user.toJSON();
     const { password: pass, ...result } = plainObject;
     return { userObject: result, error: null, token: token };
+  }
+
+  async validateToken(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const token = request.headers.authorization.split(' ')[1];
+
+    if (!token) {
+      throw new UnauthorizedException();
+    }
+
+    try {
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: jwtConstants.secret,
+      });
+      request['user'] = payload;
+    } catch (error) {
+      throw new UnauthorizedException();
+    }
+    return true;
   }
 }
