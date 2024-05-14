@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { DatabaseModule } from './db/db.module';
+import { DatabaseModule } from '../db/db.module';
+import { UsersModule } from '../users/users.module';
 import { LearnerController } from './learner.controller';
 import { LearnerService } from './learner.service';
 
@@ -10,38 +11,27 @@ import { LearnerService } from './learner.service';
       {
         name: 'NOTIFICATIONS_SERVICE',
         transport: Transport.TCP,
-        options: {
-          host: '0.0.0.0',
-          port: 3004,
-        },
+        options: { port: 3004 },
       },
       {
         name: 'COURSE_SERVICE',
         transport: Transport.TCP,
-        options: {
-          host: '0.0.0.0',
-          port: 3003,
-        },
+        options: { port: 3003 },
       },
       {
         name: 'PAYMENT_SERVICE',
         transport: Transport.TCP,
-        options: {
-          host: '0.0.0.0',
-          port: 3002,
-        },
+        options: { port: 3002 },
       },
       {
         name: 'LEARNER_SERVICE',
         transport: Transport.TCP,
-        options: {
-          host: '0.0.0.0',
-          port: 3001,
-        },
+        options: { port: 3001 },
       },
     ]),
     DatabaseModule,
     LearnerModule,
+    UsersModule
   ],
   controllers: [LearnerController],
   providers: [LearnerService],
