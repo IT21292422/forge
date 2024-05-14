@@ -1,5 +1,15 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
+import { AuthGuard } from '../auth/auth.guard';
 import { CourseService } from './course.service';
 import { createCourseDTO } from './dto/course.dto';
 
@@ -36,9 +46,9 @@ export class CourseController {
 
   // @Post('test')
   // async createTestCourse(
-  //   @Body() data: testCourse,
-  // ): Promise<Observable<testCourse>> {
-  //   return this.courseService.createTestCourseService<testCourse>();
+  //   @Body() data: TestCourse,
+  // ): Promise<Observable<TestCourse>> {
+  //   return this.courseService.createTestCourseService<TestCourse>();
   // }
 
   @Post('testService')
@@ -51,6 +61,7 @@ export class CourseController {
     return this.courseService.createTestCourseService(data);
   }
 
+  @UseGuards(AuthGuard)
   @Get('getAllCourses')
   async getAllCourseService(data: testCourse): Promise<{}> {
     console.log('####################');
@@ -69,6 +80,7 @@ export class CourseController {
     return this.courseService.getOneCourseService(id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch('setapproved')
   async updateIsApproved(@Body() data): Promise<Observable<{}>> {
     return this.courseService.updateIsApproved(data);
