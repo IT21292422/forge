@@ -42,18 +42,34 @@ export class AuthService {
 
     if (role === 'student') {
       user = await this.studentModel.findOne({ email }).exec();
-    } else {
+    } else if (role === 'instructor') {
       user = await this.instructorModel.findOne({ email }).exec();
     }
 
     if (!user) {
       return { userObject: null, error: 'nouser' };
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    console.log(
+      '🚀 Passed password and found users password',
+      password,
+      user.password,
+    );
+
+    let isPasswordValid = false;
+
+    isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
+      console.log(
+        '🚀 ~ AuthService ~ isPasswordValid: inside',
+        isPasswordValid,
+      );
       return { userObject: null, error: 'invalidpassword' };
     }
+
+    console.log('🚀 ~ AuthService ~ isPasswordValid: outside', isPasswordValid);
+
     const token = await this.jwtService.signAsync({
       email: user.email,
       role: user.role,
