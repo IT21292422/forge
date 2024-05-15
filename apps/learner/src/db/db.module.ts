@@ -5,7 +5,7 @@ import 'dotenv/config';
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.ATLAS_URI, {
-      dbName: "forge-test",
+      dbName: "forge_test",
     }),
   ],
   controllers: [],
