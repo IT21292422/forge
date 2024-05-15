@@ -1,8 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
 import {
-  EmailDoesNotExistLoginException,
-  WrongPasswordException,
-} from 'shared/exceptions/user.exceptions';
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import {
   LoginInstructorResponseDTO,
   LoginStudentResponseDTO,
@@ -28,9 +30,20 @@ export class AuthController {
     );
 
     if (result.error === 'nouser') {
-      throw EmailDoesNotExistLoginException();
+      throw new HttpException(
+        'There is no account with this email address',
+        HttpStatus.NOT_FOUND,
+      );
     } else if (result.error === 'invalidpassword') {
-      return WrongPasswordException();
+      console.log(
+        '🚀 ~ file: auth.controller.ts ~ line 34 ~ AuthController ~ login ~ result for invalidpassword',
+        result,
+      );
+
+      throw new HttpException(
+        'The password you entered is incorrect',
+        HttpStatus.UNAUTHORIZED,
+      );
     } else {
       return { ...result.userObject, token: result.token };
     }
