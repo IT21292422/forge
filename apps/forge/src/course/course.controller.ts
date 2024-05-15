@@ -22,6 +22,7 @@ export interface testCourse {
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
+  @UseGuards(AuthGuard)
   @Post('crate_course')
   async createCourse(
     @Body() data: createCourseDTO,
@@ -51,17 +52,16 @@ export class CourseController {
   //   return this.courseService.createTestCourseService<TestCourse>();
   // }
 
-  @Post('testService')
-  async createTestCourse(): Promise<Observable<testCourse>> {
-    const data: testCourse = {
-      name: 'world',
-      id: 123,
-    };
-    console.log(data);
-    return this.courseService.createTestCourseService(data);
-  }
+  // @Post('testService')
+  // async createTestCourse(): Promise<Observable<testCourse>> {
+  //   const data: testCourse = {
+  //     name: 'world',
+  //     id: 123,
+  //   };
+  //   console.log(data);
+  //   return this.courseService.createTestCourseService(data);
+  // }
 
-  @UseGuards(AuthGuard)
   @Get('getAllCourses')
   async getAllCourseService(data: testCourse): Promise<{}> {
     console.log('####################');
@@ -86,6 +86,7 @@ export class CourseController {
     return this.courseService.updateIsApproved(data);
   }
 
+  @UseGuards(AuthGuard)
   @Put('addnewchapter')
   async addChapter(@Body() data): Promise<{}> {
     return this.courseService.addChapter(data);
