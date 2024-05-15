@@ -25,6 +25,10 @@ export class LearnerService {
     return this.usersService.findOne(id.valueOf(),"instructor");
   }
 
+  findStudent(id: string){
+    return this.usersService.findOne(id.valueOf(),"student");
+  }
+
   enrollCourse(sid:string , cid: string) {
     this.learnerClient.emit(
       'enroll_course',

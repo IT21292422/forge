@@ -21,6 +21,11 @@ export class LearnerController {
     return this.learnerService.findInstructor(id);
   }
 
+  @Get('/getStudent/:id')
+  findStudent(@Param('id') id: string) {
+    return this.learnerService.findStudent(id);
+  }
+
   @Put('/:sid/enrollcourse/:cid')
   enrollCourse(@Param('sid') sid: string, @Param('cid') cid: string) {
     return this.learnerService.enrollCourse(sid,cid);
