@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseModule } from './db/db.module';
 import { LearnerController } from './learner.controller';
 import { LearnerService } from './learner.service';
+import { Progress, ProgressSchema } from './model/Progress.schema';
 
 @Module({
   imports: [
@@ -42,6 +44,12 @@ import { LearnerService } from './learner.service';
     ]),
     DatabaseModule,
     LearnerModule,
+    MongooseModule.forFeature([
+      {
+        name: Progress.name,
+        schema: ProgressSchema,
+      },
+    ]),
   ],
   controllers: [LearnerController],
   providers: [LearnerService],

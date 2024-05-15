@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { CourseProgress } from 'apps/learner/src/dto/course-progress.dto';
 import { UsersService } from '../users/users.service';
+import { EnrollLearnerEvent } from './events/learner.events';
 
 @Injectable()
 export class LearnerService {
@@ -24,7 +26,19 @@ export class LearnerService {
   }
 
   enrollCourse(sid:string , cid: string) {
+    this.learnerClient.emit(
+      'enroll_course',
+      new EnrollLearnerEvent(sid,cid),
+    );
     return this.usersService.enrollUser(sid,cid);
+  }
+
+  updateProgress(sid:string , course:CourseProgress){
+    return this.learnerClient.send({ cmd: 'update_progress' }, {sid,course});
+  }
+
+  getProgress(sid: string){
+    return this.learnerClient.send({ cmd: 'get_progress' }, {sid});
   }
 
   unenrollCourse(sid:string , cid: string){
