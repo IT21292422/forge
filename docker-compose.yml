@@ -101,7 +101,7 @@ services:
       context: ./
       dockerfile: ./apps/payment/Dockerfile
     ports:
-      - 3004:3004
+      - 3002:3002
     environment:
       - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
     networks:
@@ -112,7 +112,7 @@ services:
       context: ./
       dockerfile: ./apps/learner/Dockerfile
     ports:
-      - 3004:3004
+      - 3001:3001
     environment:
       - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
     networks:
