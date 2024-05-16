@@ -85,6 +85,39 @@ services:
     networks:
       - my-network
 
+  notifications:
+    build:
+      context: ./
+      dockerfile: ./apps/notifications/Dockerfile
+    ports:
+      - 3004:3004
+    environment:
+      - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+    networks:
+      - my-network
+
+  payment:
+    build:
+      context: ./
+      dockerfile: ./apps/payment/Dockerfile
+    ports:
+      - 3004:3004
+    environment:
+      - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+    networks:
+      - my-network
+
+  learner:
+    build:
+      context: ./
+      dockerfile: ./apps/learner/Dockerfile
+    ports:
+      - 3004:3004
+    environment:
+      - ATLAS_URI=mongodb+srv://admin-rusira:IHQDVutU3zZzxJCQ@forgedb.hzkstby.mongodb.net/
+    networks:
+      - my-network
+
 networks:
   my-network:
     driver: bridge
